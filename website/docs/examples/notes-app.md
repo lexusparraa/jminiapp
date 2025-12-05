@@ -2,7 +2,6 @@
 
 This guide provides a step-by-step process for implementing and integrating the Notes Example into the JMiniApp framework. This example demonstrates how to manage structured data (a list of objects) and ensure persistence using the framework's JSON adapter.
 
-**Source Code:** [examples/notes-app](https://github.com/lexusparraa/jminiapp/tree/main/examples/notes-app)
 
 ## 1. Project Setup and Structure
 
