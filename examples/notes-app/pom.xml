@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.jminiapp</groupId>
+        <artifactId>jminiapp-parent</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.jminiapp</groupId>
+    <artifactId>notes-example</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>Notes Example</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.jminiapp</groupId>
+            <artifactId>jminiapp-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Plugin para empaquetar el JAR ejecutable (Shadow Jar) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>notes-app</finalName>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.jminiapp.examples.notes.app.NotesApp</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <!-- CORRECCIÓN FINAL: Plugin exec-maven-plugin para ejecución -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.6.2</version>
+                <!-- **AÑADIDO:** Usamos un <execution> específico para asegurar que compile antes de ejecutar. 
+                     También mantenemos la configuración de mainClass y dependencias. -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>com.jminiapp.examples.notes.app.NotesApp</mainClass>
+                    <includePluginDependencies>true</includePluginDependencies>
+                    <!-- Añadido para solucionar problemas de Classpath: 
+                         usa las clases compiladas directamente de target/classes -->
+                    <classpathScope>compile</classpathScope> 
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
